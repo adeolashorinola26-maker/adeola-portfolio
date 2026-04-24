@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adeola Shorinola | Full Stack Developer</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0c1830;
+      --panel: rgba(255,255,255,0.06);
+      --panel-2: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.12);
+      --text: #f8fafc;
+      --muted: #a8b3c7;
+      --accent: #22d3ee;
+      --accent-2: #3b82f6;
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius: 24px;
+      --max-width: 1180px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.18), transparent 24%),
+        radial-gradient(circle at top right, rgba(59,130,246,0.15), transparent 24%),
+        linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 50%, #101827 100%);
+      line-height: 1.6;
+    }
+
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: rgba(7,17,31,0.78);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 700;
+    }
+
+    .brand-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(34,211,238,0.12);
+      border: 1px solid rgba(34,211,238,0.25);
+      color: var(--accent);
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 0.78rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #dbe4f0;
+      transition: 0.25s ease;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding-bottom: 1rem;
+    }
+
+    .mobile-nav a {
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      color: #dbe4f0;
+    }
+
+    .mobile-nav.show { display: flex; }
+
+    .hero {
+      padding: 5rem 0 4rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(34,211,238,0.22);
+      background: rgba(34,211,238,0.1);
+      color: #cbfbff;
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg, #9bf7ff, #4dcfff, #6192ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 720px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.6rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.95rem 1.35rem;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #04111d;
+      box-shadow: 0 0 35px rgba(34,211,238,0.24);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .stats {
+      margin-top: 1.8rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .card,
+    .stat,
+    .service,
+    .project,
+    .contact-card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .stat {
+      padding: 1rem;
+    }
+
+    .stat small {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.68rem;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 0.4rem;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    .hero-card {
+      padding: 0.9rem;
+    }
+
+    .hero-card-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 0.9rem;
+    }
+
+    .portrait-wrap,
+    .lifestyle-wrap {
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      min-height: 100%;
+    }
+
+    .portrait-wrap img,
+    .lifestyle-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .code-panel {
+      border-radius: 18px;
+      background: rgba(8,18,32,0.85);
+      border: 1px solid var(--border);
+      padding: 1.2rem;
+    }
+
+    .code-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .code-list {
+      display: grid;
+      gap: 0.7rem;
+      font-family: "Courier New", monospace;
+      font-size: 0.9rem;
+    }
+
+    .code-line {
+      padding: 0.75rem 0.85rem;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      color: #d4fbff;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .highlight {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 16px;
+      background: rgba(34,211,238,0.09);
+      border: 1px solid rgba(34,211,238,0.18);
+    }
+
+    .section {
+      padding: 4.75rem 0;
+    }
+
+    .section-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header p { margin-top: 0.7rem; max-width: 760px; }
+
+    .two-col,
+    .stack-grid,
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .content-card { padding: 2rem; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+    }
+
+    .service,
+    .project,
+    .contact-card {
+      padding: 1.5rem;
+      transition: 0.25s ease;
+    }
+
+    .service:hover,
+    .project:hover,
+    .filter-btn:hover { transform: translateY(-6px); }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(34,211,238,0.1);
+      border: 1px solid rgba(34,211,238,0.2);
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .service h3,
+    .project h3,
+    .content-card h2,
+    .contact-card h2 { margin-bottom: 0.75rem; }
+
+    .projects-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .filters {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: rgba(255,255,255,0.05);
+      color: #dbe4f0;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #07111f;
+      border-color: transparent;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(34,211,238,0.1);
+      border: 1px solid rgba(34,211,238,0.18);
+      color: #cbfbff;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .tag-row,
+    .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .tag,
+    .skill {
+      padding: 0.5rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(5,8,22,0.6);
+      color: #dbe4f0;
+      font-size: 0.82rem;
+    }
+
+    .mini-grid {
+      margin-top: 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .mini-box {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(5,8,22,0.55);
+      padding: 1rem;
+    }
+
+    .video-box {
+      margin-top: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(5,8,22,0.55);
+      padding: 0.8rem;
+    }
+
+    .video-stage {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(34,211,238,0.1), rgba(59,130,246,0.1));
+      border: 1px dashed rgba(34,211,238,0.22);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: #dbe4f0;
+    }
+
+    .video-stage video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .contact-list {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(5,8,22,0.55);
+    }
+
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(34,211,238,0.1);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 1rem;
+      outline: none;
+      transition: 0.2s ease;
+      font: inherit;
+    }
+
+    input::placeholder,
+    textarea::placeholder { color: #7b8798; }
+    input:focus,
+    textarea:focus { border-color: rgba(34,211,238,0.5); }
+
+    .note {
+      margin-top: 0.9rem;
+      padding: 0.9rem 1rem;
+      border-radius: 16px;
+      background: rgba(34,211,238,0.08);
+      border: 1px solid rgba(34,211,238,0.15);
+      color: #cbfbff;
+      display: none;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .two-col,
+      .stack-grid,
+      .contact-grid,
+      .hero-card-grid,
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .menu-btn { display: inline-grid; place-items: center; }
+      .services-grid,
+      .stats,
+      .mini-grid,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .projects-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container { width: min(var(--max-width), calc(100% - 1.2rem)); }
+      .hero h1 { font-size: 2.4rem; }
+      .content-card,
+      .service,
+      .project,
+      .contact-card { padding: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#home" class="brand">
+        <div class="brand-badge">&lt;/&gt;</div>
+        <div>
+          Adeola Dev
+          <small>Frontend • Backend • Full Stack</small>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#stack">Stack</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#stack">Stack</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">◆ Full Stack Portfolio • HTML / CSS / JavaScript</div>
+          <h1>
+            Full stack ambition.<br />
+            <span class="gradient">Frontend precision.</span><br />
+            A portfolio built to stand out.
+          </h1>
+          <p>
+            I’m Adeola Shorinola, an aspiring developer building modern web interfaces,
+            robust UI structure, stronger backend understanding, and polished project experiences.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">View Portfolio →</a>
+            <a class="btn btn-secondary" href="#contact">Contact Me</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><small>Focus</small><strong>Full Stack</strong></div>
+            <div class="stat"><small>Build Style</small><strong>Modern UI</strong></div>
+            <div class="stat"><small>Workflow</small><strong>Code Daily</strong></div>
+            <div class="stat"><small>Mindset</small><strong>Ship & Improve</strong></div>
+          </div>
+        </div>
+
+        <div class="card hero-card reveal">
+          <div class="hero-card-grid">
+            <div class="portrait-wrap">
+              <img src="IMG_2825.JPG" alt="Adeola portrait in suit" />
+            </div>
+            <div class="code-panel">
+              <div class="code-head">
+                <span>developer-profile.json</span>
+                <span>◌</span>
+              </div>
+              <div class="code-list">
+                <div class="code-line">name: "Adeola Shorinola"</div>
+                <div class="code-line">focus: ["frontend", "backend", "full stack"]</div>
+                <div class="code-line">stack: "HTML, CSS, JavaScript, Node.js"</div>
+                <div class="code-line">goal: "Robust products with strong UI + useful backend logic"</div>
+              </div>
+              <div class="highlight">
+                <strong>Creative direction</strong>
+                <p>Clean navigation, rich graphics, animations, strong styling, and a sharp developer presence.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container two-col">
+        <article class="card content-card reveal">
+          <div class="section-header">
+            <div class="eyebrow">About Me</div>
+            <h2>A more technical identity, built with intention</h2>
+            <p>
+              This portfolio is designed to present me as a serious aspiring full stack developer.
+              It is visually stronger, more structured, and closer to a real product experience than a basic webpage.
+            </p>
+          </div>
+          <p>
+            My aim is to combine frontend design, interactive user flows, backend thinking,
+            and strong organisation into digital solutions that are useful, modern, and scalable.
+          </p>
+        </article>
+
+        <div class="lifestyle-wrap card reveal">
+          <img src="590d677f-f8f3-4934-b7fe-df4ef6119d80.jpg" alt="Adeola seated in a modern architectural space" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="eyebrow">Services Focus</div>
+          <h2>What this developer profile is built to communicate</h2>
+          <p>Modern design, stronger frontend presence, backend thinking, and more robust project structure.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service reveal">
+            <div class="icon-box">▣</div>
+            <h3>Frontend Interfaces</h3>
+            <p>Responsive websites, dashboard layouts, landing pages, and visually polished user experiences with strong CSS styling.</p>
+          </article>
+          <article class="service reveal">
+            <div class="icon-box">◫</div>
+            <h3>Backend Thinking</h3>
+            <p>API-ready planning, data flow structure, admin logic, and scalable architecture for more complete applications.</p>
+          </article>
+          <article class="service reveal">
+            <div class="icon-box">◉</div>
+            <h3>Data & Workflow Design</h3>
+            <p>Forms, tables, sections, and process-led content structure designed for real projects and user journeys.</p>
+          </article>
+          <article class="service reveal">
+            <div class="icon-box">✓</div>
+            <h3>Professional Delivery</h3>
+            <p>Clean organisation, practical build decisions, and a growth mindset focused on useful, reliable products.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="projects-top reveal">
+          <div>
+            <div class="eyebrow">Projects</div>
+            <h2>Featured project concepts</h2>
+          </div>
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="frontend">Frontend</button>
+            <button class="filter-btn" data-filter="backend">Backend</button>
+            <button class="filter-btn" data-filter="full-stack">Full Stack</button>
+          </div>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+          <article class="project reveal" data-category="frontend">
+            <div class="project-top">
+              <span class="pill">Frontend</span>
+              <span>↗</span>
+            </div>
+            <h3>Developer Command Dashboard</h3>
+            <p>A polished dashboard concept with metric cards, live activity areas, quick actions, and responsive layout patterns.</p>
+            <div class="tag-row">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+            </div>
+          </article>
+
+          <article class="project reveal" data-category="full-stack">
+            <div class="project-top">
+              <span class="pill">Full Stack</span>
+              <span>↗</span>
+            </div>
+            <h3>GlowViva Commerce Platform</h3>
+            <p>A robust commerce concept featuring product display, filtering, modern conversion-focused layout, and backend flow thinking.</p>
+            <div class="tag-row">
+              <span class="tag">Frontend</span>
+              <span class="tag">Backend</span>
+              <span class="tag">API Design</span>
+            </div>
+          </article>
+
+          <article class="project reveal" data-category="backend">
+            <div class="project-top">
+              <span class="pill">Backend</span>
+              <span>↗</span>
+            </div>
+            <h3>Client Intake & Support Portal</h3>
+            <p>A service portal idea with secure intake forms, structured records, process tracking, and admin-ready workflow organisation.</p>
+            <div class="tag-row">
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">Database</span>
+            </div>
+          </article>
+
+          <article class="project reveal" data-category="frontend">
+            <div class="project-top">
+              <span class="pill">Frontend</span>
+              <span>↗</span>
+            </div>
+            <h3>Portfolio Media Experience</h3>
+            <p>An immersive portfolio design with rich graphics, layered gradients, animated sections, and image-led storytelling.</p>
+            <div class="tag-row">
+              <span class="tag">UI Design</span>
+              <span class="tag">Animation</span>
+              <span class="tag">Responsive</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stack">
+      <div class="container stack-grid">
+        <article class="card content-card reveal">
+          <div class="section-header">
+            <div class="eyebrow">Technology Stack</div>
+            <h2>The tools behind the build</h2>
+          </div>
+          <div class="skills-row">
+            <span class="skill">HTML5</span>
+            <span class="skill">CSS3</span>
+            <span class="skill">JavaScript</span>
+            <span class="skill">Node.js</span>
+            <span class="skill">Express</span>
+            <span class="skill">REST APIs</span>
+            <span class="skill">Git & GitHub</span>
+            <span class="skill">Responsive Design</span>
+            <span class="skill">Forms & Validation</span>
+            <span class="skill">Tables & Data Layout</span>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-box">
+              <h3>Frontend</h3>
+              <p>Responsive layouts, animation, reusable sections, accessible structure, and visual polish.</p>
+            </div>
+            <div class="mini-box">
+              <h3>Backend</h3>
+              <p>Route planning, data flow, APIs, server-side logic, and robust application structure.</p>
+            </div>
+          </div>
+        </article>
+
+        <aside class="card content-card reveal">
+          <div class="section-header">
+            <div class="eyebrow">Media / Video Section</div>
+            <h2>Showcase video-ready area</h2>
+            <p>This section is ready for a developer intro reel, project walkthrough, or GitHub showcase clip.</p>
+          </div>
+          <div class="video-box">
+            <div class="video-stage" id="videoStage">
+              <div>
+                <div style="font-size: 2rem; margin-bottom: 0.75rem; color: var(--accent);">▶</div>
+                <strong style="display:block; margin-bottom: 0.35rem;">Project Showcase Video</strong>
+                <p>Click below to load your demo video later.</p>
+              </div>
+            </div>
+          </div>
+          <div class="hero-actions" style="margin-top: 1rem;">
+            <button class="btn btn-secondary" id="videoBtn" type="button">Load Demo Video</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container contact-grid">
+        <article class="contact-card reveal">
+          <div class="section-header">
+            <div class="eyebrow">Contact</div>
+            <h2>Let’s build something modern</h2>
+            <p>This section is ready for your real email, GitHub, LinkedIn, and future backend integration.</p>
+          </div>
+          <div class="contact-list">
+            <div class="contact-item"><div class="contact-icon">✉</div><span>adeolashorinola26@gmail.com</span></div>
+            <div class="contact-item"><div class="contact-icon">◎</div><span>github.com/adeolashorinola26-maker</span></div>
+            <div class="contact-item"><div class="contact-icon">in</div><span>linkedin.com/in/adeola-s-31b815333</span></div>
+          </div>
+        </article>
+
+        <article class="contact-card reveal">
+          <div class="section-header">
+            <div class="eyebrow">Message Form</div>
+            <h2>Backend-ready contact form</h2>
+          </div>
+          <form id="contactForm">
+            <div class="form-row">
+              <input type="text" name="name" placeholder="Full name" required />
+              <input type="email" name="email" placeholder="Email address" required />
+            </div>
+            <input type="text" name="project" placeholder="Project type" required />
+            <textarea name="message" rows="6" placeholder="Tell me about your project" required></textarea>
+            <button class="btn btn-primary" type="submit">Send Message →</button>
+          </form>
+          <div class="note" id="formNote"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const revealItems = document.querySelectorAll('.reveal');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project');
+    const videoBtn = document.getElementById('videoBtn');
+    const videoStage = document.getElementById('videoStage');
+    const contactForm = document.getElementById('contactForm');
+    const formNote = document.getElementById('formNote');
+
+    menuBtn.addEventListener('click', () => {
+      mobileNav.classList.toggle('show');
+      menuBtn.textContent = mobileNav.classList.contains('show') ? '✕' : '☰';
+    });
+
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.classList.remove('show');
+        menuBtn.textContent = '☰';
+      });
+    });
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        projectCards.forEach(card => {
+          const category = card.dataset.category;
+          card.style.display = filter === 'all' || filter === category ? 'block' : 'none';
+        });
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealItems.forEach(item => observer.observe(item));
+
+    videoBtn.addEventListener('click', () => {
+      videoStage.innerHTML = `
+        <video controls>
+          <source src="portfolio-demo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      `;
+    });
+
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(contactForm);
+      const name = formData.get('name') || 'there';
+      formNote.style.display = 'block';
+      formNote.textContent = `Thanks, ${name}. Your message has been captured in this frontend demo. Connect this form to Formspree, Netlify Forms, or a backend API next.`;
+      contactForm.reset();
+    });
+
+    console.assert(document.querySelectorAll('.project').length >= 4, 'Expected at least four project cards.');
+    console.assert(document.querySelectorAll('.skill').length >= 8, 'Expected at least eight skill pills.');
+    console.assert(document.querySelectorAll('.service').length === 4, 'Expected exactly four service cards.');
+  </script>
+</body>
+</html>
